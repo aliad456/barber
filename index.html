@@ -1,750 +1,498 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="description" content="דמו פרימיום לספרים: עיצוב לבן יוקרתי, אנימציות, קאונטרים, אפליקציה, וואטסאפ ושיחה." />
-  <title>ATELIER BARBER | White Luxury Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE BARBER - Cuts & Shaves</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0F0F0F;
+            --white: #F5F5F5;
+            --orange: #FF4D00; /* כתום אש */
+            --gray: #1A1A1A;
+            --dark-gray: #2A2A2A;
+        }
 
-  <style>
-    :root{
-      --ink:#1f2430;
-      --ink2:#2b2d42;
-      --muted:#5b6272;
-      --muted2:#7a8191;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Manrope', sans-serif; 
+            background-color: var(--black); 
+            color: var(--white); 
+            overflow-x: hidden;
+        }
 
-      --paper:#fbfbfe;
-      --paper2:#f2f4fb;
-      --line: rgba(31,36,48,.10);
+        /* טיפוגרפיה ענקית */
+        h1, h2, h3, .big-text { font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 
-      --gold:#c19a6b;
-      --blue:#2b59ff;
-      --mint:#00b894;
+        /* כפתורי אפליקציה */
+        .app-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            color: var(--black);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 800;
+            transition: 0.3s;
+            border: 2px solid var(--white);
+            font-size: 0.9rem;
+        }
 
-      --r16:16px;
-      --r22:22px;
-      --r28:28px;
+        .app-btn.dark {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
 
-      --shadow: 0 28px 80px rgba(17, 24, 39, .12);
-      --shadow2: 0 14px 30px rgba(17, 24, 39, .10);
+        .app-btn:hover {
+            background: transparent;
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+        
+        .app-btn.dark:hover {
+            background: var(--white);
+            color: var(--black);
+        }
 
-      --max: 1180px;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-    }
+        .app-btn i { font-size: 1.4rem; }
+        .app-text { display: flex; flex-direction: column; line-height: 1; font-size: 0.7rem; }
+        .app-text span { font-size: 1rem; font-weight: 900; }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: Heebo, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(900px 520px at 85% -5%, rgba(193,154,107,.20), transparent 60%),
-        radial-gradient(860px 560px at 10% 15%, rgba(43,89,255,.10), transparent 65%),
-        radial-gradient(900px 600px at 55% 120%, rgba(0,184,148,.10), transparent 68%),
-        linear-gradient(180deg, var(--paper), var(--paper2));
-      overflow-x:hidden;
-    }
-    a{color:inherit;text-decoration:none}
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding: calc(16px + var(--safe-top)) 18px calc(34px + var(--safe-bottom));
-      position:relative;
-    }
+        /* HEADER */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: var(--black);
+            position: sticky; top: 0; z-index: 100;
+        }
 
-    .grain{
-      position:fixed; inset:0;
-      background:url("./assets/grain.svg");
-      opacity:.9;
-      pointer-events:none;
-      mix-blend-mode:multiply;
-      z-index:0;
-    }
+        .logo { font-size: 2rem; font-family: 'Anton'; color: var(--white); }
+        .logo span { color: var(--orange); }
 
-    .blob{
-      position:absolute;
-      width:520px; height:520px; border-radius:999px;
-      filter: blur(34px);
-      opacity:.55;
-      z-index:0;
-      transform: translateZ(0);
-      animation: floaty 10s ease-in-out infinite;
-    }
-    .blob.one{right:-240px; top:-260px; background: radial-gradient(circle at 30% 30%, rgba(193,154,107,.75), rgba(193,154,107,0) 62%)}
-    .blob.two{left:-260px; top:120px; background: radial-gradient(circle at 40% 35%, rgba(43,89,255,.55), rgba(43,89,255,0) 62%); animation-delay:-2s}
-    .blob.three{left:18%; bottom:-320px; width:680px; height:680px; background: radial-gradient(circle at 40% 35%, rgba(0,184,148,.45), rgba(0,184,148,0) 62%); animation-delay:-4s}
-    @keyframes floaty{
-      0%,100%{transform: translate3d(0,0,0) scale(1)}
-      50%{transform: translate3d(0,18px,0) scale(1.03)}
-    }
+        .social-header a {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-left: 20px;
+            transition: 0.3s;
+        }
+        .social-header a:hover { color: var(--orange); }
 
-    .reveal{opacity:0; transform: translateY(16px); filter: blur(6px); transition: .7s cubic-bezier(.2,.8,.2,1);}
-    .reveal.in{opacity:1; transform: translateY(0); filter: blur(0);}
-    .reveal.d2{transition-delay:.08s}
-    .reveal.d3{transition-delay:.14s}
-    .reveal.d4{transition-delay:.20s}
+        /* HERO - COLLAGE STYLE */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            min-height: 90vh;
+            padding: 20px;
+            gap: 20px;
+            position: relative;
+        }
 
-    .top{position:sticky; top: calc(10px + var(--safe-top)); z-index:50}
-    .bar{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding: 12px 12px;
-      border:1px solid var(--line);
-      border-radius: var(--r28);
-      background: rgba(255,255,255,.65);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow2);
-    }
-    .brand{display:flex; align-items:center; gap:10px; min-width:fit-content}
-    .badge{
-      width:40px; height:40px; border-radius:16px;
-      background: conic-gradient(from 220deg, var(--gold), rgba(0,184,148,.85), rgba(43,89,255,.85), var(--gold));
-      box-shadow: 0 18px 44px rgba(193,154,107,.20);
-      position:relative; overflow:hidden;
-    }
-    .badge:after{
-      content:"";
-      position:absolute; inset:-40% -40%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.8), transparent 55%);
-      transform: rotate(18deg);
-      opacity:.75;
-    }
-    .btxt{display:flex; flex-direction:column; line-height:1.05}
-    .btxt b{font-weight: 900; letter-spacing:.2px}
-    .btxt span{font-size:12px; color: var(--muted2); font-weight:800}
+        .hero-text-area {
+            background: var(--gray);
+            border-radius: 30px;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
-    .nav a{
-      padding: 8px 10px;
-      border-radius: 12px;
-      font-weight: 900;
-      color: var(--muted);
-      transition:.16s;
-      white-space:nowrap;
-    }
-    .nav a:hover{background: rgba(31,36,48,.05); color: var(--ink)}
+        /* אלמנטים צפים ברקע */
+        .floating-icon {
+            position: absolute;
+            opacity: 0.05;
+            font-size: 12rem;
+            animation: float 8s ease-in-out infinite;
+        }
+        .f1 { top: -10%; right: -10%; transform: rotate(25deg); }
+        .f2 { bottom: -10%; left: -5%; transform: rotate(-15deg); animation-delay: 2s; }
 
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      min-height: 44px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.85);
-      font-weight: 900;
-      cursor:pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition:.18s;
-      white-space:nowrap;
-    }
-    .btn:hover{transform: translateY(-1px); box-shadow: 0 18px 38px rgba(17,24,39,.12)}
-    .btn:active{transform: translateY(0)}
-    .btnA{
-      border-color: rgba(193,154,107,.40);
-      background: linear-gradient(135deg, rgba(193,154,107,.95), rgba(193,154,107,.35));
-      color:#1b1207;
-    }
-    .btnB{
-      border-color: rgba(0,184,148,.35);
-      background: linear-gradient(135deg, rgba(0,184,148,.90), rgba(0,184,148,.25));
-      color:#062017;
-    }
-    .btnC{
-      border-color: rgba(43,89,255,.30);
-      background: linear-gradient(135deg, rgba(43,89,255,.90), rgba(43,89,255,.22));
-      color:#061022;
-    }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-30px) rotate(var(--r, 0deg)); } }
 
-    main{position:relative; z-index:1}
-    .hero{
-      padding: 22px 0 10px;
-      display:grid;
-      grid-template-columns: 1.06fr .94fr;
-      gap: 16px;
-      align-items: start;
-    }
-    .tag{
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.72);
-      color: var(--muted);
-      font-weight: 900;
-      width: fit-content;
-    }
-    h1{
-      margin: 14px 0 10px;
-      font-size: clamp(32px, 4.4vw, 58px);
-      line-height: 1.02;
-      letter-spacing: -0.6px;
-      font-weight: 900;
-    }
-    .grad{
-      background: linear-gradient(90deg, var(--gold), var(--mint), var(--blue));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-    }
-    .lead{
-      margin:0 0 14px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.75;
-      font-weight: 700;
-      max-width: 64ch;
-    }
-    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top: 8px}
+        .hero h1 { font-size: 6rem; line-height: 0.9; margin-bottom: 30px; z-index: 2; }
+        .hero h1 span { -webkit-text-stroke: 2px var(--orange); color: transparent; }
+        
+        .hero-badges {
+            display: flex; gap: 15px; margin-bottom: 40px;
+        }
+        .badge { background: var(--orange); color: var(--black); padding: 5px 15px; font-weight: 800; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; display: inline-block;}
 
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .stat{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.78);
-      border-radius: var(--r22);
-      box-shadow: var(--shadow2);
-      padding: 14px 14px 12px;
-      position:relative;
-      overflow:hidden;
-    }
-    .stat:before{
-      content:"";
-      position:absolute; inset:-40% -40% auto auto;
-      width:220px; height:220px;
-      background: radial-gradient(circle at 30% 30%, rgba(193,154,107,.22), transparent 60%);
-      transform: rotate(14deg);
-      pointer-events:none;
-    }
-    .stat b{display:block; font-size: 28px; letter-spacing:-.2px}
-    .stat small{display:block; margin-top:4px; color: var(--muted2); font-weight: 800; line-height:1.45}
+        .app-store-hero { display: flex; gap: 15px; flex-wrap: wrap; z-index: 2; }
 
-    .appPanel{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.70);
-      border-radius: 34px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
-    .appTop{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding: 14px 14px 12px;
-      border-bottom: 1px solid rgba(31,36,48,.08);
-      background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.70);
-      font-weight: 900;
-      color: var(--ink);
-      font-size: 12px;
-      white-space:nowrap;
-    }
-    .dot{width:10px; height:10px; border-radius: 999px; background: var(--mint); box-shadow: 0 0 0 6px rgba(0,184,148,.16)}
-    .appBody{
-      padding: 14px;
-      background:
-        radial-gradient(420px 300px at 20% 15%, rgba(193,154,107,.18), transparent 60%),
-        radial-gradient(420px 300px at 85% 45%, rgba(43,89,255,.12), transparent 60%),
-        radial-gradient(420px 320px at 55% 90%, rgba(0,184,148,.12), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
-      min-height: 480px;
-    }
-    .appH{margin: 0 0 10px; font-weight: 900; font-size: 18px}
-    .appP{margin: 0 0 12px; color: var(--muted); font-weight: 700; line-height: 1.7}
+        /* תמונה ראשית */
+        .hero-image-area {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1599351431202-6e0000a400a4?q=80&w=1000&auto=format&fit=crop') center/cover;
+        }
 
-    .slotGrid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-top: 10px}
-    .slot{
-      padding: 10px;
-      border-radius: 16px;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.75);
-      text-align:center;
-      font-weight: 900;
-      transition: .18s;
-    }
-    .slot:hover{transform: translateY(-1px); box-shadow: 0 14px 28px rgba(17,24,39,.10)}
-    .slot small{display:block; margin-top: 4px; color: var(--muted2); font-weight: 800}
-    .slot.hot{border-color: rgba(193,154,107,.35); background: linear-gradient(180deg, rgba(193,154,107,.18), rgba(255,255,255,.72));}
+        /* RUNNING MARQUEE (פס רץ) */
+        .marquee {
+            background: var(--orange);
+            color: var(--black);
+            padding: 15px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            transform: rotate(-2deg) scale(1.05);
+            margin: 50px 0;
+            border-top: 5px solid var(--white);
+            border-bottom: 5px solid var(--white);
+        }
 
-    .storeRow{display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top: 14px}
-    .store{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding: 12px;
-      border-radius: 18px;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.78);
-      transition:.18s;
-      min-height: 60px;
-    }
-    .store:hover{transform: translateY(-1px); box-shadow: 0 18px 36px rgba(17,24,39,.12)}
-    .store .left{display:flex; align-items:center; gap:12px; min-width:0}
-    .ic{
-      width:42px; height:42px; border-radius: 16px;
-      display:grid; place-items:center;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.75);
-      overflow:hidden;
-    }
-    .ic img{width:28px; height:28px}
-    .store .txt{min-width:0}
-    .store .txt small{display:block; color: var(--muted2); font-weight: 800; font-size: 12px}
-    .store .txt b{display:block; font-weight: 900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-    .go{color: rgba(31,36,48,.45); font-weight: 900}
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+            font-family: 'Anton';
+            font-size: 2.5rem;
+            text-transform: uppercase;
+        }
 
-    .section{padding: 18px 0}
-    .head{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      margin-bottom: 12px;
-    }
-    .h2{margin:0; font-size: 22px; font-weight: 900; letter-spacing:-.2px}
-    .sub{margin:0; color: var(--muted2); font-weight: 700; line-height: 1.7}
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px}
-    .feat{
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.78);
-      border-radius: var(--r22);
-      box-shadow: var(--shadow2);
-      padding: 16px;
-      position:relative;
-      overflow:hidden;
-    }
-    .feat:after{
-      content:"";
-      position:absolute; inset:auto -40% -60% auto;
-      width:360px; height:360px;
-      background: radial-gradient(circle at 30% 30%, rgba(43,89,255,.08), transparent 60%);
-      transform: rotate(18deg);
-      pointer-events:none;
-    }
-    .feat h3{margin: 10px 0 6px; font-weight: 900; font-size: 18px}
-    .feat p{margin:0; color: var(--muted2); font-weight: 700; line-height: 1.75}
-    .kicker{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(193,154,107,.30);
-      background: rgba(193,154,107,.14);
-      font-weight: 900;
-      font-size: 12px;
-      width: fit-content;
-    }
-    .k2{border-color: rgba(0,184,148,.28); background: rgba(0,184,148,.12)}
-    .k3{border-color: rgba(43,89,255,.22); background: rgba(43,89,255,.10)}
-    .ico{
-      width:46px; height:46px; border-radius: 18px;
-      display:grid; place-items:center;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.75);
-      overflow:hidden;
-    }
-    .ico img{width:28px; height:28px}
+        /* --- BENTO GRID SERVICES (החדש והעמוס!) --- */
+        .services { padding: 50px 20px; max-width: 1400px; margin: 0 auto; }
+        
+        .grid-container {
+            display: grid;
+            /* 4 עמודות ליותר עומס */
+            grid-template-columns: repeat(4, 1fr);
+            /* גובה שורה בסיסי */
+            grid-auto-rows: 250px;
+            gap: 20px;
+        }
 
-    .gallery{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 12px;
-      align-items: stretch;
-    }
-    .shot{
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.78);
-      border-radius: 28px;
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
-      min-height: 320px;
-    }
-    .shot:before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(500px 320px at 20% 25%, rgba(193,154,107,.14), transparent 60%),
-        radial-gradient(500px 320px at 80% 40%, rgba(43,89,255,.08), transparent 60%),
-        radial-gradient(520px 340px at 60% 90%, rgba(0,184,148,.08), transparent 60%);
-    }
-    .shot .label{
-      position:absolute; left:14px; top:14px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.72);
-      font-weight: 900;
-      color: var(--ink);
-      font-size: 12px;
-    }
-    .shot .hint{
-      position:absolute; inset:auto 14px 14px 14px;
-      color: var(--muted);
-      font-weight: 800;
-      line-height: 1.7;
-    }
-    .stack{display:grid; grid-template-rows: 1fr 1fr; gap: 12px}
-    .miniShot{min-height: 154px}
+        .grid-item {
+            background: var(--gray);
+            border-radius: 25px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    footer{
-      margin-top: 18px;
-      padding: 18px 0 46px;
-      border-top: 1px solid rgba(31,36,48,.10);
-      color: var(--muted2);
-      font-weight: 700;
-    }
-    .foot{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+        .grid-item:hover { border-color: var(--orange); }
 
-    .dock{
-      position: fixed;
-      left: 12px; right: 12px;
-      bottom: calc(12px + var(--safe-bottom));
-      max-width: var(--max);
-      margin: 0 auto;
-      display:none;
-      gap:10px;
-      z-index: 80;
-      padding: 10px;
-      border-radius: 22px;
-      border:1px solid rgba(31,36,48,.10);
-      background: rgba(255,255,255,.72);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-    }
-    .dock a{flex:1}
+        /* סוגי כרטיסים */
+        .item-large-img {
+            grid-column: span 2;
+            grid-row: span 2;
+            background: url('https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=1000&auto=format&fit=crop') center/cover;
+        }
 
-    @media (prefers-reduced-motion: reduce){
-      .blob{animation:none}
-      .btn:hover,.store:hover,.slot:hover{transform:none}
-      .reveal{transition:none}
-    }
+        /* כרטיס האפליקציה הכתום החדש */
+        .item-app-orange {
+            grid-column: span 1;
+            grid-row: span 2;
+            background: var(--orange);
+            color: var(--black);
+            justify-content: flex-start;
+        }
 
-    @media (max-width: 980px){
-      .hero{grid-template-columns: 1fr}
-      .nav{display:none}
-      .grid3{grid-template-columns: 1fr}
-      .gallery{grid-template-columns: 1fr}
-      .storeRow{grid-template-columns: 1fr}
-      .slotGrid{grid-template-columns: 1fr 1fr 1fr}
-      .stats{grid-template-columns: 1fr}
-      .dock{display:flex}
-    }
-    @media (max-width: 520px){
-      .slotGrid{grid-template-columns: 1fr 1fr}
-    }
-  </style>
+        /* כרטיס הביקורות החדש */
+        .item-reviews {
+            grid-column: span 1;
+            grid-row: span 2;
+            background: var(--dark-gray);
+            padding: 0; /* Padding פנימי לתוכן */
+        }
+        
+        .item-wide { grid-column: span 2; }
+
+        /* תכולת כרטיס */
+        .service-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+        .service-title { font-size: 1.5rem; margin-bottom: 5px; }
+        .service-desc { color: #999; font-size: 0.9rem; }
+        .service-price { font-size: 2.2rem; font-family: 'Anton'; color: var(--orange); align-self: flex-end; }
+        
+        .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        .overlay-orange { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(255, 77, 0, 0.9), rgba(255, 77, 0, 0.4)); }
+
+
+        /* עיצוב כרטיס האפליקציה הכתום */
+        .app-card-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .app-card-header { display: flex; align-items: center; gap: 10px; }
+        .app-card-header i { font-size: 2.5rem; }
+        .app-buttons-grid { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+        .free-tag { font-size: 3rem; font-family: 'Anton'; align-self: flex-end; line-height: 1; }
+
+        /* עיצוב כרטיס הביקורות (נגלל) */
+        .reviews-header {
+            padding: 25px;
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .reviews-rating { display: flex; align-items: center; gap: 5px; color: var(--orange); font-weight: 800; }
+        
+        .reviews-list {
+            height: calc(100% - 80px); /* גובה פחות ההדר */
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* הסתרת פס גלילה */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        .reviews-list::-webkit-scrollbar { display: none; }
+
+        .review-card-small {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+        .review-user { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .review-user img { width: 30px; height: 30px; border-radius: 50%; }
+        .review-stars { color: var(--orange); font-size: 0.8rem; }
+
+        /* FOOTER */
+        footer { padding: 50px; text-align: center; border-top: 1px solid #333; margin-top: 50px;}
+
+        /* MOBILE */
+        @media (max-width: 1024px) {
+            .grid-container { grid-template-columns: repeat(2, 1fr); }
+            .item-large-img { grid-column: span 2; }
+            .item-app-orange, .item-reviews { grid-column: span 1; grid-row: span 2; }
+        }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 4rem; }
+            
+            .grid-container { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .grid-item { min-height: 250px; }
+            .item-large-img, .item-wide { grid-column: span 1; grid-row: span 1; height: 300px; }
+            .item-app-orange, .item-reviews { grid-column: span 1; grid-row: span 1; height: auto; min-height: 350px; }
+            
+            .app-buttons-grid { flex-direction: row; }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="blob one" aria-hidden="true"></div>
-  <div class="blob two" aria-hidden="true"></div>
-  <div class="blob three" aria-hidden="true"></div>
 
-  <div class="wrap">
-    <div class="top">
-      <header class="bar reveal">
-        <a class="brand" href="#top">
-          <span class="badge" aria-hidden="true"></span>
-          <span class="btxt">
-            <b>ATELIER BARBER</b>
-            <span>White Luxury | אפליקציה + תורים</span>
-          </span>
-        </a>
-
-        <nav class="nav" aria-label="תפריט">
-          <a href="#why">למה אצלנו</a>
-          <a href="#services">שירותים</a>
-          <a href="#gallery">גלריה</a>
-          <a href="#app">אפליקציה</a>
-        </nav>
-
-        <div style="display:flex; gap:10px; align-items:center; min-width:fit-content">
-          <a class="btn btnB" id="callTop" href="tel:+972500000000">התקשר</a>
-          <a class="btn btnA" id="waTop" href="https://wa.me/972500000000" target="_blank" rel="noopener">וואטסאפ</a>
+    <header>
+        <div class="logo">THE BARBER<span>.</span></div>
+        <div class="social-header">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
         </div>
-      </header>
+    </header>
+
+    <section class="hero">
+        
+        <div class="hero-text-area">
+            <i class="fas fa-cut floating-icon f1" style="--r: 25deg;"></i>
+            <i class="fas fa-crown floating-icon f2" style="--r: -15deg;"></i>
+            
+            <div class="hero-badges">
+                <span class="badge">EST. 2024</span>
+                <span class="badge" style="background: transparent; border: 1px solid white; color: white;">Best in Town</span>
+            </div>
+            
+            <h1>LOOK SHARP<br><span>STAY SHARP</span></h1>
+            <p style="font-size: 1.2rem; color: #ccc; margin-bottom: 40px; max-width: 400px;">
+                יותר ממספרה, זו קהילה. תפוס את המקום שלך בכיסא של המקצוענים.
+            </p>
+
+            <div class="app-store-hero">
+                <a href="#" class="app-btn">
+                    <i class="fab fa-apple"></i>
+                    <div class="app-text">Download on the<span>App Store</span></div>
+                </a>
+                <a href="#" class="app-btn" style="background: transparent; color: white; border-color: rgba(255,255,255,0.2);">
+                    <i class="fab fa-google-play"></i>
+                    <div class="app-text">Get it on<span>Google Play</span></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-image-area">
+            </div>
+
+    </section>
+
+    <div class="marquee">
+        <div class="marquee-content">
+            HAIRCUT * BEARD TRIM * HOT TOWEL * FADE MASTER * SHAVE * STYLE * FRESH CUT * HAIRCUT * BEARD TRIM * HOT TOWEL * FADE MASTER * SHAVE * STYLE * FRESH CUT
+        </div>
     </div>
 
-    <main id="top">
-      <section class="hero">
-        <div>
-          <div class="tag reveal d2">✂️ פרימיום לגברים | זמינות מהירה | חוויית אפליקציה</div>
-
-          <h1 class="reveal d3">
-            חוויה נקייה. <span class="grad">פרטים קטנים</span>. תוצאה גדולה.
-          </h1>
-
-          <p class="lead reveal d4">
-            דמו לבן יוקרתי עם אנימציות עדינות, היררכיה נכונה וקאונטרים שמעלים אמון.
-            זה נראה כמו מותג, לא כמו “עוד דף”.
-          </p>
-
-          <div class="ctaRow reveal d4">
-            <a class="btn btnA" href="#app">האפליקציה</a>
-            <a class="btn btnB" id="callHero" href="tel:+972500000000">שיחה</a>
-            <a class="btn btnC" id="waHero" href="https://wa.me/972500000000" target="_blank" rel="noopener">וואטסאפ</a>
-          </div>
-
-          <div class="stats">
-            <div class="stat reveal">
-              <b><span class="count" data-from="0" data-to="10" data-suffix="+">0</span></b>
-              <small>שנות ניסיון</small>
-            </div>
-            <div class="stat reveal d2">
-              <b><span class="count" data-from="0" data-to="3200" data-suffix="+">0</span></b>
-              <small>לקוחות מרוצים</small>
-            </div>
-            <div class="stat reveal d3">
-              <b><span class="count" data-from="0" data-to="4.9" data-decimals="1" data-suffix="★">0</span></b>
-              <small>דירוג ממוצע</small>
-            </div>
-          </div>
-        </div>
-
-        <aside class="appPanel reveal d2" aria-label="תצוגת אפליקציה">
-          <div class="appTop">
-            <span class="pill"><span class="dot"></span> תורים זמינים היום</span>
-            <span class="pill">ATELIER</span>
-          </div>
-          <div class="appBody">
-            <p class="appH">קביעת תור ב-10 שניות</p>
-            <p class="appP">בוחרים שירות, שעה פנויה, ומקבלים אישור. פשוט ונקי.</p>
-
-            <div class="slotGrid" aria-label="שעות דוגמה">
-              <div class="slot hot">12:30<small>פנוי</small></div>
-              <div class="slot">13:10<small>פנוי</small></div>
-              <div class="slot">14:40<small>פנוי</small></div>
-              <div class="slot">15:20<small>מעט</small></div>
-              <div class="slot hot">16:00<small>פנוי</small></div>
-              <div class="slot">17:30<small>פנוי</small></div>
-            </div>
-
-            <div class="storeRow" id="app">
-              <a class="store" id="iosLink" href="https://apps.apple.com/" target="_blank" rel="noopener">
-                <div class="left">
-                  <div class="ic"><img src="./assets/icon-pole.svg" alt="" /></div>
-                  <div class="txt">
-                    <small>הורדה מ</small>
-                    <b>App Store</b>
-                  </div>
+    <section class="services">
+        <h2 style="font-size: 3rem; margin-bottom: 30px;">CHOOSE YOUR <span style="color: var(--orange);">WEAPON</span></h2>
+        
+        <div class="grid-container">
+            
+            <div class="grid-item item-large-img">
+                <div class="overlay-dark"></div>
+                <div class="service-content" style="justify-content: flex-end;">
+                    <span class="badge" style="align-self: flex-start; margin-bottom: 10px;">VIP PACKAGE</span>
+                    <div>
+                        <h3 class="service-title" style="font-size: 2rem;">THE FULL EXPERIENCE</h3>
+                        <p class="service-desc" style="color: #ccc;">תספורת + סידור זקן + טיפול פנים + מגבת חמה.</p>
+                    </div>
+                    <div class="service-price">₪180</div>
                 </div>
-                <div class="go">›</div>
-              </a>
+            </div>
 
-              <a class="store" id="androidLink" href="https://play.google.com/store" target="_blank" rel="noopener">
-                <div class="left">
-                  <div class="ic"><img src="./assets/icon-scissors.svg" alt="" /></div>
-                  <div class="txt">
-                    <small>הורדה מ</small>
-                    <b>Google Play</b>
-                  </div>
+            <div class="grid-item item-app-orange">
+                <div class="app-card-content">
+                    <div class="app-card-header">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>BOOK ON APP</h3>
+                    </div>
+                    <p style="font-weight: 600;">דלג על התור. קבל מבצעים. נהל את הסטייל שלך.</p>
+                    
+                    <div class="app-buttons-grid">
+                        <a href="#" class="app-btn dark">
+                            <i class="fab fa-apple"></i>
+                            <div class="app-text">Download on the<span>App Store</span></div>
+                        </a>
+                        <a href="#" class="app-btn dark">
+                            <i class="fab fa-google-play"></i>
+                            <div class="app-text">Get it on<span>Google Play</span></div>
+                        </a>
+                    </div>
+                    
+                    <div class="free-tag">FREE</div>
                 </div>
-                <div class="go">›</div>
-              </a>
             </div>
-          </div>
-        </aside>
-      </section>
 
-      <section class="section" id="why">
-        <div class="head">
-          <div class="reveal">
-            <h2 class="h2">למה זה עובד</h2>
-            <p class="sub">לא רק עיצוב: תנועה, ריווח, והוכחות חברתיות שמייצרות אמון.</p>
-          </div>
-          <a class="btn reveal d2" href="#services">לשירותים ↓</a>
-        </div>
-
-        <div class="grid3">
-          <div class="feat reveal">
-            <div class="kicker">פרטים</div>
-            <h3>מיקרו-אנימציות עדינות</h3>
-            <p>אלמנטים נכנסים בזמן, כפתורים “נושמים” בעדינות, והכל נשאר נקי.</p>
-          </div>
-          <div class="feat reveal d2">
-            <div class="kicker k2">מהירות</div>
-            <h3>CTA תמיד זמין</h3>
-            <p>במובייל יש Dock קבוע לשיחה/וואטסאפ. בלי טפסים מיותרים.</p>
-          </div>
-          <div class="feat reveal d3">
-            <div class="kicker k3">אמון</div>
-            <h3>קאונטרים שמחזקים</h3>
-            <p>10+ שנות ניסיון, 3,200+ לקוחות, 4.9★. המספרים “מתמלאים” מול העין.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="services">
-        <div class="head">
-          <div class="reveal">
-            <h2 class="h2">שירותים (דמו)</h2>
-            <p class="sub">בפרויקט אמיתי נעדכן תמחור/שמות, ונוסיף תמונות של העסק.</p>
-          </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap" class="reveal d2">
-            <a class="btn btnB" id="callSvc" href="tel:+972500000000">שיחה מהירה</a>
-            <a class="btn btnA" href="#app">האפליקציה</a>
-          </div>
-        </div>
-
-        <div class="grid3">
-          <div class="feat reveal">
-            <div class="ico"><img src="./assets/icon-scissors.svg" alt="" /></div>
-            <h3>תספורת גברים</h3>
-            <p>Fade / Scissors / Line-up, סטיילינג + פיניש.</p>
-          </div>
-          <div class="feat reveal d2">
-            <div class="ico"><img src="./assets/icon-pole.svg" alt="" /></div>
-            <h3>תספורת + זקן</h3>
-            <p>חבילה מלאה עם קונטורים וניקוי.</p>
-          </div>
-          <div class="feat reveal d3">
-            <div class="ico"><img src="./assets/icon-scissors.svg" alt="" /></div>
-            <h3>ילדים</h3>
-            <p>גישה רגועה, תור קצר, תוצאה נקייה.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="gallery">
-        <div class="head">
-          <div class="reveal">
-            <h2 class="h2">גלריה (placeholder)</h2>
-            <p class="sub">כאן נכניס תמונות אמיתיות של המקום והתוצאות. כרגע יש מסגרות יוקרתיות.</p>
-          </div>
-          <a class="btn reveal d2" href="#app">CTA ↓</a>
-        </div>
-
-        <div class="gallery">
-          <div class="shot reveal">
-            <div class="label">תמונה גדולה</div>
-            <div class="hint">כאן יכנס צילום סטודיו / תוצאה / לפני-אחרי. אפשר גם וידאו קצר.</div>
-          </div>
-          <div class="stack">
-            <div class="shot miniShot reveal d2">
-              <div class="label">תמונה</div>
-              <div class="hint">אווירה ומקום.</div>
+            <div class="grid-item item-reviews">
+                <div class="reviews-header">
+                    <h3>WALL OF FAME</h3>
+                    <div class="reviews-rating"><i class="fas fa-star"></i> 4.9/5</div>
+                </div>
+                
+                <div class="reviews-list" id="reviewsList">
+                    <div class="review-card-small">
+                        <div class="review-user">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                            <div><strong>אורן לוי</strong><div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p>"הספר הכי טוב בעיר, נקודה. דיוק מטורף ואחלה אווירה."</p>
+                    </div>
+                    <div class="review-card-small">
+                        <div class="review-user">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="">
+                            <div><strong>דניאל ק.</strong><div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p>"שירות VIP. האפליקציה חוסכת לי המון זמן. ממליץ בחום!"</p>
+                    </div>
+                    <div class="review-card-small">
+                        <div class="review-user">
+                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="">
+                            <div><strong>יוני א.</strong><div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p>"יצאתי חדש. אין על הצוות הזה."</p>
+                    </div>
+                     <div class="review-card-small">
+                        <div class="review-user">
+                            <img src="https://randomuser.me/api/portraits/men/11.jpg" alt="">
+                            <div><strong>גיא מזרחי</strong><div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p>"פייד מטורף, בדיוק כמו שביקשתי. תודה!"</p>
+                    </div>
+                </div>
             </div>
-            <div class="shot miniShot reveal d3">
-              <div class="label">תמונה</div>
-              <div class="hint">תוצאה מקרוב.</div>
+
+            <div class="grid-item" style="background: url('https://images.unsplash.com/photo-1503951914875-452162b7f30a?q=80&w=500&auto=format&fit=crop') center/cover;">
+                <div class="overlay-dark"></div>
+                <div class="service-content">
+                    <i class="fas fa-cut" style="font-size: 2rem; color: var(--orange);"></i>
+                    <div>
+                        <h3 class="service-title">CLASSIC CUT</h3>
+                        <p class="service-desc">תספורת קלאסית + דירוג + עיצוב.</p>
+                    </div>
+                    <div class="service-price">₪80</div>
+                </div>
             </div>
-          </div>
+
+            <div class="grid-item">
+                <div class="service-content">
+                    <i class="fas fa-beard" style="font-size: 2rem; color: var(--orange);"></i>
+                    <div>
+                        <h3 class="service-title">BEARD TRIM</h3>
+                        <p class="service-desc">סידור ועיצוב זקן עם מכונה ומספריים.</p>
+                    </div>
+                    <div class="service-price">₪50</div>
+                </div>
+            </div>
+            
+             <div class="grid-item item-wide" style="background: url('https://images.unsplash.com/photo-1605497788044-5a32c7078486?q=80&w=1000&auto=format&fit=crop') center/cover;">
+                 <div class="overlay-orange" style="opacity: 0.8;"></div>
+                <div class="service-content" style="flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                         <h3 class="service-title" style="font-size: 2rem; color: var(--black);">FATHER & SON</h3>
+                         <p class="service-desc" style="color: var(--black);">חוויה משותפת במחיר מיוחד.</p>
+                    </div>
+                    <div class="service-price" style="color: var(--black);">₪140</div>
+                </div>
+            </div>
+
         </div>
-      </section>
+    </section>
 
-      <footer class="reveal">
-        <div class="foot">
-          <div>© <span id="year"></span> ATELIER BARBER</div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap">
-            <a class="btn" href="#top">למעלה</a>
-            <a class="btn btnA" href="#app">האפליקציה</a>
-          </div>
-        </div>
-      </footer>
-    </main>
-  </div>
+    <footer>
+        <div class="logo" style="margin-bottom: 20px;">THE BARBER<span>.</span></div>
+        <p style="color: #666;">© 2024 Street Style. Powered by Landing.team</p>
+    </footer>
 
-  <div class="dock" aria-label="פעולות מהירות">
-    <a class="btn btnB" id="callDock" href="tel:+972500000000">שיחה</a>
-    <a class="btn btnA" id="waDock" href="https://wa.me/972500000000" target="_blank" rel="noopener">וואטסאפ</a>
-  </div>
+    <script>
+        const reviewsList = document.getElementById('reviewsList');
+        let scrollAmount = 0;
+        const scrollSpeed = 0.5; // מהירות הגלילה
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // ===== CONFIG: שנה פעם אחת לכל לקוח =====
-    const CONFIG = {
-      phoneIntl: "+972500000000",           // ✅ לשנות לטלפון אמיתי
-      whatsappIntl: "972500000000",          // ✅ בלי +
-      iosUrl: "https://apps.apple.com/",     // ✅ לינק אמיתי לאפליקציה
-      androidUrl: "https://play.google.com/store" // ✅ לינק אמיתי לאפליקציה
-    };
-
-    const telHref = "tel:" + CONFIG.phoneIntl;
-    const waHref = "https://wa.me/" + CONFIG.whatsappIntl;
-
-    ["callTop","callHero","callSvc","callDock"].forEach(id=>{
-      const el = document.getElementById(id);
-      if(el) el.href = telHref;
-    });
-    ["waTop","waHero","waDock"].forEach(id=>{
-      const el = document.getElementById(id);
-      if(el) el.href = waHref;
-    });
-
-    const iosLink = document.getElementById("iosLink");
-    const androidLink = document.getElementById("androidLink");
-    if(iosLink) iosLink.href = CONFIG.iosUrl;
-    if(androidLink) androidLink.href = CONFIG.androidUrl;
-
-    // ===== reveal on scroll =====
-    const io = new IntersectionObserver((entries)=>{
-      for(const e of entries){
-        if(e.isIntersecting){
-          e.target.classList.add("in");
-          io.unobserve(e.target);
+        function autoScrollReviews() {
+            scrollAmount += scrollSpeed;
+            if (scrollAmount >= reviewsList.scrollHeight - reviewsList.clientHeight) {
+                scrollAmount = 0; // חזרה להתחלה
+            }
+            reviewsList.scrollTo(0, scrollAmount);
+            requestAnimationFrame(autoScrollReviews);
         }
-      }
-    }, {threshold: 0.14});
 
-    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+        // הפעלת הגלילה (אפשר לבטל אם זה מציק)
+        // autoScrollReviews(); 
+        
+        // אופציה ב': גלילה איטית וחלקה יותר
+        setInterval(() => {
+             if (reviewsList.scrollTop + reviewsList.clientHeight >= reviewsList.scrollHeight) {
+                 reviewsList.scrollTo({top: 0, behavior: 'smooth'});
+             } else {
+                 reviewsList.scrollBy({top: 100, behavior: 'smooth'});
+             }
+        }, 3000); // כל 3 שניות
+    </script>
 
-    // ===== counters =====
-    function animateCount(el){
-      const from = parseFloat(el.dataset.from ?? "0");
-      const to = parseFloat(el.dataset.to ?? "0");
-      const decimals = parseInt(el.dataset.decimals ?? "0", 10);
-      const suffix = el.dataset.suffix ?? "";
-      const duration = 1400;
-      const start = performance.now();
-
-      function tick(now){
-        const t = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        const val = from + (to - from) * eased;
-        el.textContent = val.toFixed(decimals) + suffix;
-        if(t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-
-    const counters = document.querySelectorAll(".count");
-    const cio = new IntersectionObserver((entries)=>{
-      for(const e of entries){
-        if(e.isIntersecting){
-          animateCount(e.target);
-          cio.unobserve(e.target);
-        }
-      }
-    }, {threshold: 0.6});
-
-    counters.forEach(c => cio.observe(c));
-
-    // ===== subtle parallax blobs (desktop only) =====
-    const blobs = document.querySelectorAll(".blob");
-    let raf = null;
-    window.addEventListener("pointermove", (e)=>{
-      if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if(window.innerWidth < 980) return;
-      if(raf) return;
-      raf = requestAnimationFrame(()=>{
-        const x = (e.clientX / window.innerWidth - 0.5);
-        const y = (e.clientY / window.innerHeight - 0.5);
-        blobs.forEach((b, i)=>{
-          const k = (i+1) * 10;
-          b.style.transform = `translate3d(${x*k}px, ${y*k}px, 0)`;
-        });
-        raf = null;
-      });
-    }, {passive:true});
-  </script>
 </body>
 </html>
